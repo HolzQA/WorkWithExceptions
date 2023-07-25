@@ -1,4 +1,5 @@
 package ru.netology.repository;
+import ru.netology.AlreadyExistsException;
 import ru.netology.NotFoundException;
 import ru.netology.domain.Product;
 
@@ -26,7 +27,12 @@ public class ShopRepository {
      * @param product — добавляемый товар
      */
     public void add(Product product) {
-        products = addToArray(products, product);
+        if (findById(product.getId()) == null) {
+            products = addToArray(products, product);
+        } else { throw new AlreadyExistsException(
+                "Номер " + product.getId() + " уже занят другим продуктом"
+        );
+        }
     }
 
     public Product[] findAll() {
